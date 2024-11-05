@@ -2,7 +2,7 @@
 name = "lukass_python_utils"
 version = "0.0.0"
 description = "Some reusable python untils"
-authors = [""]
+authors = ["salchowlukas@gmail.com"]
 readme = "README.md"
 
 packages = [
