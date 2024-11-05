@@ -6,7 +6,7 @@ repos:
       - id: check-added-large-files
         args: ["--maxkb=10000"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.289
+    rev: v0.7.1
     hooks:
       - id: ruff
   - repo: https://github.com/kynan/nbstripout
