@@ -1,0 +1,2 @@
+*.ipynb linguist-documentation
+src/notebooks/** linguist-vendored
