@@ -13,7 +13,8 @@ def run_shell_command(command: Sequence[str], timeout=TIMEOUT) -> subprocess.Com
             timeout=timeout,
         )
     except subprocess.TimeoutExpired as e:
-        e.add_note("\noutput =\n" + e.output.decode())
+        if e.output is not None:
+            e.add_note("\noutput =\n" + e.output.decode())
         raise
     if output.returncode != 0:
         message = "\n".join(
