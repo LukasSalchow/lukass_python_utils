@@ -26,16 +26,17 @@ def run_shell_command(command: Sequence[str], timeout=10) -> subprocess.Complete
             capture_output=True,
             timeout=timeout,
         )
-    except subprocess.TimeoutExpired as e:
+    except(subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
         if e.output is not None:
-            e.add_note("\noutput =\n" + e.output.decode())
+            e.add_note(f"{e.stdout.decode("utf-8")}")
+            e.add_note(f"{e.stderr.decode("utf-8")}")
         raise
     if output.returncode != 0:
         message = "\n".join(
             (
-                "returned error code: " + str(output.returncode),
-                output.stdout.decode("utf-8"),
-                output.stderr.decode("utf-8"),
+                f'{output.returncode=}',
+                f'{output.stdout.decode("utf-8")=}',
+                f'{output.stderr.decode("utf-8")=}',
             )
         )
         raise RuntimeError(message)
