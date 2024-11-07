@@ -45,6 +45,7 @@ follow_imports = "silent"
 
 [tool.ruff]
 src = ["src"]
+lint.ignore = ["G004"]
 
 extend-exclude = ["tests"]
 
