@@ -1,10 +1,24 @@
+import logging
 import subprocess
 from typing import Sequence
 
-TIMEOUT = 10
+
+def get_logger(name: str, log_level=logging.INFO) -> logging.Logger:
+    logger = logging.getLogger(name)
+    logger.setLevel(log_level)
+    console_handler = logging.StreamHandler()
+    # In the following format "-8s" make s sure no matter the log level, the rest of the message is aligned.
+    formatter = logging.Formatter(
+        fmt='%(asctime)s,%(msecs)03d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+        datefmt='%Y-%m-%d:%H:%M:%S'
+    )
+    console_handler.setFormatter(formatter)
+    if not logger.handlers:
+        logger.addHandler(console_handler)
+    return logger
 
 
-def run_shell_command(command: Sequence[str], timeout=TIMEOUT) -> subprocess.CompletedProcess[bytes]:
+def run_shell_command(command: Sequence[str], timeout=10) -> subprocess.CompletedProcess[bytes]:
     """Wrapper for "subprocess.run" that adds the output in case of an error."""
     try:
         output = subprocess.run(  # noqa: S603
