@@ -1,6 +1,8 @@
 import logging
 import subprocess
-from typing import Sequence
+import time
+from collections.abc import Callable, Generator, Sequence
+from datetime import timedelta
 
 
 def get_logger(name: str, log_level=logging.INFO) -> logging.Logger:
@@ -18,7 +20,22 @@ def get_logger(name: str, log_level=logging.INFO) -> logging.Logger:
     return logger
 
 
-def run_shell_command(command: Sequence[str], timeout=10) -> subprocess.CompletedProcess[bytes]:
+def get_time_logger(name: str, log_level: int = logging.INFO) -> Callable[
+    [str], contextlib.AbstractContextManager[None]]:
+    """Logs the time a block or function takes. Can be invoked as a decorator or as a context manager."""
+    logger = get_logger(name, log_level=log_level)
+
+    @contextlib.contextmanager
+    def log_time(title: str) -> Generator[None, None, None]:
+        logger.info(f"started {title}")
+        start = timedelta(seconds=time.monotonic_ns() / 10 ** 9)
+        yield
+        logger.info(f"{title} took {timedelta(seconds=time.monotonic_ns() / 10 ** 9) - start}")
+
+    return log_time
+
+
+def run_shell_command(command: Sequence[str], timeout: int = 10) -> subprocess.CompletedProcess[bytes]:
     """Wrapper for "subprocess.run" that adds the output in case of an error."""
     try:
         output = subprocess.run(  # noqa: S603
