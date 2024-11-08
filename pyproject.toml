@@ -6,7 +6,7 @@ authors = ["lukas.salchow <salchowlukas@gmail.com>"]
 readme = "README.md"
 
 packages = [
-  {include = "lukass_python_utils", from="src"},
+    { include = "lukass_python_utils", from = "src" },
 ]
 
 [virtualenvs]
@@ -26,10 +26,10 @@ pre-commit = "^3.3.3"
 [tool.pytest.ini_options]
 minversion = "6.0.0rc1"
 testpaths = [
-  "tests",
+    "tests",
 ]
 pythonpath = [
-  "src"
+    "src"
 ]
 markers = [
     "integration: mark an integration test",
@@ -45,29 +45,22 @@ follow_imports = "silent"
 
 [tool.ruff]
 src = ["src"]
-
+fix = true
 extend-exclude = ["tests"]
+line-length = 120
 
-lint.select = [
-    "E",    # pycodestyle errors
-    "W",    # pycodestyle warnings
-    "F",    # pyflakes
-    "I",    # isort
-    "C",    # flake8-comprehensions
-    "B",    # flake8-bugbear
-    "S",    # flake8-bandit
-    "N",    # pep8-naming
-    "BLE",  # flake8-blind-except
-    "A",    # flake8-builtins
-    "ICN",  # flake8-import-conventions
-    "G",    # flake8-logging-format
-    "SLF",  # flake8-self
-    "RET",  # flake8-return
-    "SIM",  # flake8-simplify
-    "PD",   # pandas-vet
-    "PERF", # perflint
+lint.select = ['ALL']
+lint.ignore = [
+    "G004", # logging-f-strin
+    'D401', # non-imperative-mood
+    'D203', # one-blank-line-before-class
+    'D212', # multi-line-summary-first-line
+
+    # not needed with formatter
+    'COM812', # missing-trailing-comma
+    'ISC001', # single-line-implicit-string-concatenation
+    'Q000' #flake8-quotes.inline-quotes="double"
 ]
-lint.ignore = ["G004"]
 
 lint.fixable = [
     "A",
@@ -117,8 +110,6 @@ lint.fixable = [
 ]
 lint.unfixable = []
 
-line-length = 120
-
 # Allow unused variables when underscore-prefixed.
 lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
@@ -130,6 +121,10 @@ target-version = "py312"  # noqa
 max-complexity = 10
 
 [tool.ruff.lint.per-file-ignores]
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-format = true
 
 [build-system]
 requires = ["poetry-core"]
