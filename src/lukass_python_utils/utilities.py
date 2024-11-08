@@ -52,8 +52,8 @@ def run_shell_command(command: Sequence[str], timeout: int = 10) -> subprocess.C
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
         if e.output is not None:
-            e.add_note(f"{e.stdout.decode("utf-8")}")
-            e.add_note(f"{e.stderr.decode("utf-8")}")
+            e.add_note(f'{e.stdout.decode("utf-8")}')
+            e.add_note(f'{e.stderr.decode("utf-8")}')
         raise
     if output.returncode != 0:
         message = '\n'.join(
