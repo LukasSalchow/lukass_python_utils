@@ -34,9 +34,9 @@ def get_time_logger(
     @contextlib.contextmanager
     def log_time(title: str) -> Generator[None, None, None]:
         logger.info(f'started {title}')
-        start = timedelta(seconds=time.monotonic_ns())
+        start = timedelta(seconds=time.monotonic_ns() / 10**9)
         yield
-        logger.info(f'{title} took {(timedelta(seconds=time.monotonic_ns()) - start) / 10 ** 9} seconds.')
+        logger.info(f'{title} took {timedelta(seconds=time.monotonic_ns() / 10 ** 9) - start}')
 
     return log_time
 
