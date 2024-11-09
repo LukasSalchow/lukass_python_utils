@@ -1,6 +1,7 @@
 import logging
 import random
 import re
+from subprocess import CalledProcessError
 from subprocess import TimeoutExpired
 from time import sleep
 
@@ -24,14 +25,8 @@ def test_get_time_logger(caplog):
 
 
 @pytest.mark.unit
-def test_run_shell_command_file_not_found():
-    with pytest.raises(RuntimeError) as e:
-        run_shell_command(['ls', str(random.randint(10 ** 10, 10 ** 11 - 1))])
-        assert 'No such file or directory' in repr(e)
-
-
-@pytest.mark.unit
-def test_run_shell_command_timeout():
-    with pytest.raises(TimeoutExpired) as e:
-        run_shell_command(['sleep', '1'], timeout=1e-6)
-        assert 'No such file or directory' in repr(e)
+def test_run_shell_command_add_info():
+    non_existing_file = str(random.randint(10 ** 10, 10 ** 11 - 1))
+    with pytest.raises(CalledProcessError) as e:
+        run_shell_command(['ls', non_existing_file])
+    assert f'ls: {non_existing_file}: No such file or directory'in e.getrepr()

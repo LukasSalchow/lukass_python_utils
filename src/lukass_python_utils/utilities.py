@@ -48,21 +48,13 @@ def run_shell_command(command: Sequence[str], timeout: float = 10) -> subprocess
             command,
             capture_output=True,
             timeout=timeout,
-            check=False,
+            check=True,
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
-        if e.output is not None:
-            e.add_note(f'{e.stdout.decode("utf-8")}')
-            e.add_note(f'{e.stderr.decode("utf-8")}')
+        if e.stdout is not None:
+            e.add_note(f'{e.stdout.decode("utf-8")=}')
+        if e.stderr is not None:
+            e.add_note(f'{e.stderr.decode("utf-8")=}')
         raise
-    if output.returncode != 0:
-        message = '\n'.join(
-            (
-                f'{output.returncode=}',
-                f'{output.stdout.decode("utf-8")=}',
-                f'{output.stderr.decode("utf-8")=}',
-            ),
-        )
-        raise RuntimeError(message)
 
     return output
