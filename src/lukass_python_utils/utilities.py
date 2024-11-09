@@ -3,9 +3,13 @@
 import contextlib
 import logging
 import subprocess
+import sys
 import time
 from collections.abc import Callable, Generator, Sequence
 from datetime import timedelta
+
+MAJOR_PYTHON_VERSION = 3
+MINOR_PYTHON_VERSION_WITH_ADD_NOTE = 11
 
 
 def get_logger(name: str, log_level: int = logging.INFO) -> logging.Logger:
@@ -51,10 +55,12 @@ def run_shell_command(command: Sequence[str], timeout: float = 10) -> subprocess
             check=True,
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
-        if e.stdout is not None:
-            e.add_note(f'{e.stdout.decode("utf-8")=}')
-        if e.stderr is not None:
-            e.add_note(f'{e.stderr.decode("utf-8")=}')
+        major, minor, *_ = sys.version_info
+        if major == MAJOR_PYTHON_VERSION and minor >= MINOR_PYTHON_VERSION_WITH_ADD_NOTE:
+            if e.stdout is not None:
+                e.add_note(f'{e.stdout.decode("utf-8")=}')
+            if e.stderr is not None:
+                e.add_note(f'{e.stderr.decode("utf-8")=}')
         raise
 
     return output
