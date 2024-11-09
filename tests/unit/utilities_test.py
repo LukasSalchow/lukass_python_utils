@@ -32,4 +32,4 @@ def test_run_shell_command_add_info():
     try:
         run_shell_command(['ls', non_existing_file])
     except CalledProcessError as e:
-        assert f'ls: {non_existing_file}: No such file or directory' in e.__notes__[1]
+        assert 'No such file or directory' in e.__notes__[1] and non_existing_file in e.__notes__[1]
