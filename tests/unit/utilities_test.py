@@ -3,10 +3,12 @@ import random
 import re
 import sys
 from subprocess import CalledProcessError
-from subprocess import TimeoutExpired
 from time import sleep
 
 import pytest
+
+from lukass_python_utils.utilities import MAJOR_PYTHON_VERSION
+from lukass_python_utils.utilities import MINOR_PYTHON_VERSION_WITH_ADD_NOTE
 from lukass_python_utils.utilities import get_time_logger
 from lukass_python_utils.utilities import run_shell_command
 
@@ -31,7 +33,7 @@ def test_run_shell_command_add_info():
     with pytest.raises(CalledProcessError):
         run_shell_command(['ls', non_existing_file])
     major, minor, *_ = sys.version_info
-    if major == 3 and minor > 10:
+    if major == MAJOR_PYTHON_VERSION and minor >= MINOR_PYTHON_VERSION_WITH_ADD_NOTE:
         try:
             run_shell_command(['ls', non_existing_file])
         except CalledProcessError as e:
