@@ -29,4 +29,4 @@ def test_run_shell_command_add_info():
     non_existing_file = str(random.randint(10 ** 10, 10 ** 11 - 1))
     with pytest.raises(CalledProcessError) as e:
         run_shell_command(['ls', non_existing_file])
-    assert f'ls: {non_existing_file}: No such file or directory'in e.getrepr()
+    assert f'ls: {non_existing_file}: No such file or directory' in str(e.getrepr())
