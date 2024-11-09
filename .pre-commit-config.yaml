@@ -21,6 +21,7 @@ repos:
         args: ["--fix=no"]
       - id: name-tests-test
       - id: pretty-format-json
+        args: ["--autofix", "--indent=4"]
       - id: check-added-large-files
         args: ["--maxkb=500"]
   - repo: https://github.com/codespell-project/codespell
@@ -29,12 +30,6 @@ repos:
       - id: codespell
         additional_dependencies:
           - tomli
-  - repo: https://github.com/amperser/proselint/
-    rev: 0.14.0
-    hooks:
-      - id: proselint
-        exclude: LICENSE|requirements
-        files: \.(md|mdown|markdown)$
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.7.3
     hooks:
