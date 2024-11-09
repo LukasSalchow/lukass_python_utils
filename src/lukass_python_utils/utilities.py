@@ -41,7 +41,7 @@ def get_time_logger(
     return log_time
 
 
-def run_shell_command(command: Sequence[str], timeout: int = 10) -> subprocess.CompletedProcess[bytes]:
+def run_shell_command(command: Sequence[str], timeout: float = 10) -> subprocess.CompletedProcess[bytes]:
     """Wrapper for "subprocess.run" that adds the output in case of an error."""
     try:
         output = subprocess.run(  # noqa: S603
