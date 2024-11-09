@@ -32,6 +32,7 @@ pythonpath = [
     "src"
 ]
 markers = [
+    "unit: mark a unit test",
     "integration: mark an integration test",
     "extras: mark a test that needs extra dependencies"
 ]

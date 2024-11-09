@@ -1,11 +1,9 @@
 import logging
 import re
-from datetime import datetime
-from datetime import timedelta
 from time import sleep
 
 import pytest
-from src.lukass_python_utils.utilities import get_time_logger
+from lukass_python_utils.utilities import get_time_logger
 
 
 @pytest.mark.unit
