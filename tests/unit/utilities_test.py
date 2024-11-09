@@ -1,9 +1,11 @@
 import logging
+import random
 import re
 from time import sleep
 
 import pytest
 from lukass_python_utils.utilities import get_time_logger
+from lukass_python_utils.utilities import run_shell_command
 
 
 @pytest.mark.unit
@@ -18,3 +20,11 @@ def test_get_time_logger(caplog):
 
     assert all(map(lambda x: x in ['0', '00'], other))
     assert .1 < float(seconds) < .2
+
+
+@pytest.mark.unit
+def test_run_shell_command():
+    with pytest.raises(RuntimeError) as e:
+        run_shell_command(['ls', str(random.randint(10 ** 10, 10 ** 11 - 1))])
+        assert 'No such file or directory' in repr(e)
+
