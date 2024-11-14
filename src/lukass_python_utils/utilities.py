@@ -29,18 +29,19 @@ def get_logger(name: str, log_level: int = logging.INFO) -> logging.Logger:
 
 
 def get_time_logger(
-    name: str,
-    log_level: int = logging.INFO,
+        name: str,
+        log_level: int = logging.INFO,
 ) -> Callable[[str], contextlib._GeneratorContextManager[None]]:
     """Logs the time a block or function takes. Can be invoked as a decorator or as a context manager."""
     logger = get_logger(name, log_level=log_level)
 
     @contextlib.contextmanager
     def log_time(title: str) -> Generator[None, None, None]:
-        logger.info(f'started {title}')
-        start = timedelta(seconds=time.monotonic_ns() / 10**9)
+        logger.info(f'{title} has started')
+        start = timedelta(seconds=time.monotonic_ns() / 10 ** 9)
         yield
-        logger.info(f'{title} took {timedelta(seconds=time.monotonic_ns() / 10 ** 9) - start}')
+        delta = timedelta(seconds=time.monotonic_ns() / 10 ** 9) - start
+        logger.info(f'{title} took {delta}')
 
     return log_time
 
@@ -48,8 +49,8 @@ def get_time_logger(
 def run_shell_command(command: Sequence[str], timeout: float = 10) -> subprocess.CompletedProcess[bytes]:
     """Wrapper for "subprocess.run" that adds the output in case of an error."""
     try:
-        output = subprocess.run(  # noqa: S603
-            command,
+        output = subprocess.run(
+            command, # noqa: S603
             capture_output=True,
             timeout=timeout,
             check=True,
