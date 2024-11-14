@@ -31,7 +31,7 @@ def get_logger(name: str, log_level: int = logging.INFO) -> logging.Logger:
 def get_time_logger(
     name: str,
     log_level: int = logging.INFO,
-) -> Callable[[str], contextlib.AbstractContextManager[None]]:
+) -> Callable[[str], contextlib._GeneratorContextManager[None]]:
     """Logs the time a block or function takes. Can be invoked as a decorator or as a context manager."""
     logger = get_logger(name, log_level=log_level)
 
