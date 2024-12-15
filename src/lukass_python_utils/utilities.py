@@ -12,7 +12,7 @@ MAJOR_PYTHON_VERSION = 3
 MINOR_PYTHON_VERSION_WITH_ADD_NOTE = 11
 
 
-def get_logger(name: str, log_level: int = logging.INFO) -> logging.Logger:
+def get_logger(name: str, log_level: int = logging.DEBUG) -> logging.Logger:
     """Sets up a logger including information like file name and line number."""
     logger = logging.getLogger(name)
     logger.setLevel(log_level)
@@ -30,7 +30,7 @@ def get_logger(name: str, log_level: int = logging.INFO) -> logging.Logger:
 
 def get_time_logger(
     name: str,
-    log_level: int = logging.INFO,
+    log_level: int = logging.DEBUG,
 ) -> Callable[[str], contextlib._GeneratorContextManager[None]]:
     """Logs the time a block or function takes. Can be invoked as a decorator or as a context manager."""
     logger = get_logger(name, log_level=log_level)
